@@ -1,0 +1,6 @@
+- name: APT | Installation
+  apt: name={{ item }}
+  with_items:
+    - apache2
+    - apache2-utils
+  when: ansible_pkg_mgr == "apt"
