@@ -1,0 +1,8 @@
+- name: Set authorized key took from file
+- copy:
+    src: authorized_keys
+    dest: /root/.ssh/
+    owner: root
+    group: root
+    mode: 0644
+
