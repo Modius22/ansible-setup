@@ -1,0 +1,5 @@
+apache_use_default: true
+apache_use_default_ssl: true
+use_perl: false
+use_fcgid: false
+apache_mpm: worker
