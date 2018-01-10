@@ -1,0 +1,34 @@
+- name: yum | install httpd
+  yum: name={{ item }}
+  with_items:
+    - httpd
+    - httpd-tools
+  when: ansible_pkg_mgr == "yum"
+
+- name: yum | install of fcgid
+  yum: name={{ item }}
+  with_items:
+    - mod-fcgid
+    - mod-ruid2
+  when: ansible_pkg_mgr == "yum" and ( use_perl or use_fcgid )
+
+- name: Enable common httpd modules
+  apache2_module: name={{ item }}
+  with_items:
+    - ssl
+    - proxy
+    - proxy_fcgi
+    - rewrite
+    - filter
+    - deflate
+    - headers
+
+- name: Enable fcgid httpd module
+  apache2_module: name={{ items }}
+  with_items:
+    - cgid
+    - fcgid
+    - suexec
+  when: use_perl or use_fcgid
+
+
