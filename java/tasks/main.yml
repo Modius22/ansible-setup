@@ -1,0 +1,2 @@
+- name: Java | Install java
+  package: "name={{ java_packages }} state=installed"
