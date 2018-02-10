@@ -1,2 +1,14 @@
 - name: Java | Install java
   package: "name={{ java_packages }} state=installed"
+  when: java == "openjdk"
+
+- name: Java | Oracle download
+  copy:
+    src: jdk-8u161-linux-x64.rpm 
+    dest: /tmp/jdk-8u161-linux-x64.rpm
+    mode: 0755
+  when: java == "oracle"
+
+- name: Java | Oracle install
+  yum: name=/tmp/jdk-8u161-linux-x64.rpm
+  when: java == "oracle"
