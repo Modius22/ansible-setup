@@ -1,0 +1,6 @@
+- name: disable firewalld
+  command: "{{ item }}"
+  with_items:
+     - systemctl stop firewalld
+     - systemctl disable firewalld
+
