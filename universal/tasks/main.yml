@@ -1,0 +1,7 @@
+- name: install standard packages
+  yum: name={{ item }}
+  with_items:
+    - vim 
+    - wget
+    - unzip
+
