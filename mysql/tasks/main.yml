@@ -1,0 +1,9 @@
+- name: MySQL | get repository
+  command: wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+
+- name: MySQL | add repository
+  command: sudo rpm -ivh mysql57-community-release-el7-9.noarch.rpm
+
+- name: MySQL | install
+  yum: name=mysql-server
+  
