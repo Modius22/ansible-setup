@@ -11,4 +11,5 @@
 
 - name: Java | Oracle install
   yum: name=/tmp/jdk-8u161-linux-x64.rpm
+  state: present
   when: java == "oracle"
