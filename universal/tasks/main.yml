@@ -1,3 +1,9 @@
+- include_role:
+    name: selinux
+
+- include_role:
+    name: firewalld
+
 - name: install standard packages
   yum: name={{ item }}
   with_items:
