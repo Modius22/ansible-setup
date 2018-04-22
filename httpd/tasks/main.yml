@@ -1,100 +1,103 @@
-- name: yum | install httpd
-  yum: name={{ item }}
-  with_items:
-    - httpd
-    - httpd-tools
-  when: ansible_pkg_mgr == "yum"
+block:
+  - name: yum | install httpd
+    yum: name={{ item }}
+    with_items:
+      - httpd
+      - httpd-tools
+    when: ansible_pkg_mgr == "yum"
+  
+  - name: yum | install of fcgid
+    yum: name={{ item }}
+    with_items:
+      - mod_fcgid
+      - mod_ruid2
+    when: ansible_pkg_mgr == "yum" and ( use_perl or use_fcgid )
+  
+  - name: Enable common httpd modules
+    apache2_module: name={{ item }}
+    with_items:
+      - proxy
+      - proxy_fcgi
+      - rewrite
+      - filter
+      - deflate
+      - headers
+  
+  - name: Enable fcgid httpd module
+    apache2_module: name={{ item }}
+    with_items:
+      - cgi
+      - fcgid
+      - suexec
+    when: use_perl or use_fcgid
+  
+  
+  - name: Create default directory
+    file: state=directory path={{ item.path }}
+    with_items:
+      - path: /var/www/example.com
+        mode: 0755
+      - path: /etc/httpd/sites-available
+        mode: 0755
+      - path: /etc/httpd/sites-enabled
+        mode: 0755
+    when: httpd_use_default_ssl or httpd_use_default
+  
+  - name: Copy example index.html
+    copy:
+      src: index.html
+      dest: /var/www/example.com
+      owner: apache
+      group: apache
+      mode: 0644
+  
+  - name: modify httpd.conf
+    blockinfile:
+      path: /etc/httpd/conf/httpd.conf
+      block: IncludeOptional sites-enabled/*.conf
+  
+  - name: Copy example.com.conf
+    copy:
+      src: example.com.conf
+      dest: /etc/httpd/sites-available/
+  
+  - name: activate vHost
+    file:
+      src: /etc/httpd/sites-available/example.com.conf
+      path: /etc/httpd/sites-enabled/example.com.conf
+      state: link
+  
+  - name: yum | install mod_ssl
+    yum: name={{ item }}
+    with_items:
+      - mod_ssl
+    when: httpd_use_default_ssl and ansible_pkg_mgr == "yum"
+  
+  - name: Create default ssl directory
+    file: state=directory path={{ item.path }}
+    with_items:
+      - path: /etc/httpd/ssl
+        mode: 0755
+    when: httpd_use_default_ssl 
+  
+  - name: generate self-signed certificate for ssl
+    command: openssl req -new -nodes -x509 -subj "/C=DE/ST=State/L=City/O=IT/CN=localhost"  -days 3650 -keyout /etc/pki/tls/private/localhost.key -out /etc/pki/tls/certs/localhost.crt -extensions v3_ca creates=/etc/pki/tls/certs/localhost.crt
+    when: httpd_use_default_ssl
+  
+  - name: Copy example.com.conf
+    copy:
+      src: example-ssl.com.conf
+      dest: /etc/httpd/sites-available/
+  
+  - name: activate vHost
+    file:
+      src: /etc/httpd/sites-available/example-ssl.com.conf
+      path: /etc/httpd/sites-enabled/example-ssl.com.conf
+      state: link
+  
+  - name: restart httpd
+    service:
+      name: httpd
+      state: restarted
+when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: yum | install of fcgid
-  yum: name={{ item }}
-  with_items:
-    - mod_fcgid
-    - mod_ruid2
-  when: ansible_pkg_mgr == "yum" and ( use_perl or use_fcgid )
-
-- name: Enable common httpd modules
-  apache2_module: name={{ item }}
-  with_items:
-    - proxy
-    - proxy_fcgi
-    - rewrite
-    - filter
-    - deflate
-    - headers
-
-- name: Enable fcgid httpd module
-  apache2_module: name={{ item }}
-  with_items:
-    - cgi
-    - fcgid
-    - suexec
-  when: use_perl or use_fcgid
-
-
-- name: Create default directory
-  file: state=directory path={{ item.path }}
-  with_items:
-    - path: /var/www/example.com
-      mode: 0755
-    - path: /etc/httpd/sites-available
-      mode: 0755
-    - path: /etc/httpd/sites-enabled
-      mode: 0755
-  when: httpd_use_default_ssl or httpd_use_default
-
-- name: Copy example index.html
-  copy:
-    src: index.html
-    dest: /var/www/example.com
-    owner: apache
-    group: apache
-    mode: 0644
-
-- name: modify httpd.conf
-  blockinfile:
-    path: /etc/httpd/conf/httpd.conf
-    block: IncludeOptional sites-enabled/*.conf
-
-- name: Copy example.com.conf
-  copy:
-    src: example.com.conf
-    dest: /etc/httpd/sites-available/
-
-- name: activate vHost
-  file:
-    src: /etc/httpd/sites-available/example.com.conf
-    path: /etc/httpd/sites-enabled/example.com.conf
-    state: link
-
-- name: yum | install mod_ssl
-  yum: name={{ item }}
-  with_items:
-    - mod_ssl
-  when: httpd_use_default_ssl and ansible_pkg_mgr == "yum"
-
-- name: Create default ssl directory
-  file: state=directory path={{ item.path }}
-  with_items:
-    - path: /etc/httpd/ssl
-      mode: 0755
-  when: httpd_use_default_ssl 
-
-- name: generate self-signed certificate for ssl
-  command: openssl req -new -nodes -x509 -subj "/C=DE/ST=State/L=City/O=IT/CN=localhost"  -days 3650 -keyout /etc/pki/tls/private/localhost.key -out /etc/pki/tls/certs/localhost.crt -extensions v3_ca creates=/etc/pki/tls/certs/localhost.crt
-  when: httpd_use_default_ssl
-
-- name: Copy example.com.conf
-  copy:
-    src: example-ssl.com.conf
-    dest: /etc/httpd/sites-available/
-
-- name: activate vHost
-  file:
-    src: /etc/httpd/sites-available/example-ssl.com.conf
-    path: /etc/httpd/sites-enabled/example-ssl.com.conf
-    state: link
-
-- name: restart httpd
-  service:
-    name: httpd
-    state: restarted

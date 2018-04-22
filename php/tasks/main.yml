@@ -1,20 +1,22 @@
-- set_fact:
-    php_packages:
-      - php-fpm
-      - php-curl
-      - php-gd
-      - php-gmp
-      - php-json
-      - php-ldap
-      - php-xmlrpc
-      - php-xsl
-      - php-imap
-      - php-intl
-      - php-mcrypt
-      - php-mysqlnd
+block:
+  - set_fact:
+      php_packages:
+        - php-fpm
+        - php-curl
+        - php-gd
+        - php-gmp
+        - php-json
+        - php-ldap
+        - php-xmlrpc
+        - php-xsl
+        - php-imap
+        - php-intl
+        - php-mcrypt
+        - php-mysqlnd
+  
+  - name: php | install
+    yum: 
+      name: "{{ item }}"
+    with_items: "{{ php_packages }}"
+when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: php | install
-  yum: 
-    name: "{{ item }}"
-  with_items: "{{ php_packages }}"
-  when: ansible_pkg_mgr == "yum" 
