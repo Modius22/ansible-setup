@@ -1,3 +1,4 @@
 *.rpm
 hosts
 site*
+.DS_Store
