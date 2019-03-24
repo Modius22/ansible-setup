@@ -1,0 +1,23 @@
+- name: Kibana | add repository
+  yum_repository:
+    name: kibana
+    description: kibana repo
+    baseurl: https://packages.elastic.co/kibana/4.6/centos
+
+- name: Kibana | install kibana
+  yum: name={{ item }}
+  with_items:
+    - kibana
+  when: ansible_pkg_mgr == "yum"
+
+- name: Kibana | set node.name
+  replace:
+      dest: /etc/elasticsearch/elasticsearch.yml
+      regexp: '#server.host: '
+      replace: 'server.host: 127.0.0.1'
+
+- name: Kibana | enable service
+  systemd:
+    name: kibana
+    enabled: yes
+    masked: no
