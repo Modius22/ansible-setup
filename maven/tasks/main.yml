@@ -1,0 +1,22 @@
+- name: maven | download source
+  get_url:
+    url: http://www-eu.apache.org/dist/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz
+    dest: /usr/local/
+
+- name: maven | unarchive source
+  unarchive:
+    src: /usr/local/apache-maven-3.5.3-bin.tar.gz
+    dest: /usr/local/
+    remote_src: yes
+
+- name: maven | rename directory
+  command: mv /usr/local/apache-maven-3.5.3 /usr/local/maven
+
+- name: maven | remove tar.gz
+  command: rm /usr/local/apache-maven-3.5.3-bin.tar.gz
+
+- name: maven | copy profile
+  copy: src=maven.sh dest=/etc/profile.d/maven.sh
+
+- name: maven | source profile
+  command: source /etc/profile.d/maven.sh
