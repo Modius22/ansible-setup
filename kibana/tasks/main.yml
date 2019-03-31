@@ -1,8 +1,8 @@
 - name: Kibana | add repository
-  yum_repository:
-    name: kibana
-    description: kibana repo
-    baseurl: https://packages.elastic.co/kibana/4.6/centos
+  copy:
+    src: kibana.repo 
+    dest: /etc/yum.repos.d/kibana.repo
+    mode: 0755
 
 - name: Kibana | install kibana
   yum: name={{ item }}
@@ -12,8 +12,8 @@
 
 - name: Kibana | set node.name
   replace:
-      dest: /etc/elasticsearch/elasticsearch.yml
-      regexp: '#server.host: '
+      dest: /etc/kibana/kibana.yml
+      regexp: '#server.host: "localhost"'
       replace: 'server.host: 127.0.0.1'
 
 - name: Kibana | enable service
