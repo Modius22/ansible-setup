@@ -7,12 +7,12 @@ Here can you find a set of roles. A few from my ansible post on www.modius-techb
 ## install ansible
 ### ubuntu
 
-'''apt-get install ansible'''
+    apt-get install ansible
 ### centos
-'''yum install ansible'''
+    yum install ansible
 
 ### test ansible after installation
-'''ansible all -i "localhost," -c local -m shell -a 'echo hello world'''
+    ansible all -i "localhost," -c local -m shell -a 'echo hello world
 ## added apt support to role
 
 
