@@ -4,7 +4,15 @@ Here can you find a set of roles. A few from my ansible post on www.modius-techb
 
 **_NOTE:_** work in progress - changen from yum to apt 
 
+## install ansible
+### ubuntu
 
+'''apt-get install ansible'''
+### centos
+'''yum install ansible'''
+
+### test ansible after installation
+'''ansible all -i "localhost," -c local -m shell -a 'echo hello world'''
 ## added apt support to role
 
 
