@@ -5,10 +5,32 @@ Here can you find a set of roles. A few from my ansible post on www.modius-techb
 **_NOTE:_** work in progress - changen from yum to apt 
 
 
-## Planned changes
+## added apt support to role
 
-- [ ] dd
-- [ ]
+
+- [ ] development-environment  
+- [ ] epel         
+- [ ] fhem       
+- [ ] httpd-vhost    
+- [ ] kibana   
+- [ ] mysql      
+- [ ] selinux   
+- [ ] tomcat
+- [ ] docker                   
+- [ ] epel_remove  
+- [ ] firewalld  
+- [ ] java           
+- [ ] mariadb  
+- [ ] php        
+- [ ] ssh       
+- [ ] universal
+- [ ] elasticsearch            
+- [ ] fail2ban     
+- [ ] httpd      
+- [ ] jetbrains-hub  
+- [ ] maven    
+- [ ] teamcity  
+- [ ] upsource
 
 ## General Using
 
