@@ -1,0 +1,36 @@
+- name: JetBrains Hub | Check for existing files
+  stat:
+    path="/opt/hub"
+  register: hub
+
+- block:
+
+  - name: JetBrains Hub | download hub
+    get_url:
+      url: http://download.jetbrains.com/hub/hub-2018.1.9156.zip
+      dest: /tmp/
+      checksum: sha256:bfd24027b14b0090d1d6d019e1fd4db59e673e33971d844b34bac193f3f2e73e
+
+  - name: JetBrains Hub | unzip source
+    unarchive:
+      src: /tmp/hub-2018.1.9156.zip
+      dest: /opt
+      remote_src: yes
+
+  - name: JetBrains Hub | rename directory
+    command: mv /opt/hub-2018.1.9156 /opt/hub
+
+  - name: JetBrains Hub | copy systemd script
+    copy: src=hub.service dest=/etc/systemd/system/hub.service
+
+  when: not hub.stat.exists
+
+- name: JetBrains Hub | reload systemd
+    systemd:
+    daemon_reload: yes
+
+- name: JetBrains Hub | start hub
+    systemd:
+    name: hub
+    state: started
+    enabled: yes
