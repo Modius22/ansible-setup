@@ -1,7 +1,0 @@
-- name: disable firewalld
-  command: "{{ item }}"
-  with_items:
-     - systemctl stop firewalld
-     - systemctl disable firewalld
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-

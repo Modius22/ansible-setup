@@ -1,9 +1,0 @@
-[Unit]
-Description=Teamcity
-After=network.target
-[Service]
-User=root
-ExecStart=/opt/TeamCity/bin/teamcity-server.sh run
-ExecStop=/opt/TeamCity/bin/teamcity-server.sh stop
-[Install]
-WantedBy=multi-user.target

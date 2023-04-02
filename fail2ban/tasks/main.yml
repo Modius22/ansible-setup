@@ -1,5 +1,0 @@
-- name: APT | Installation fail2ban
-  apt: name={{ item }}
-  with_items:
-    - fail2ban
-  when: ansible_pkg_mgr == "apt"

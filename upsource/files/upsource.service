@@ -1,9 +1,0 @@
-[Unit]
-Description=Upsource
-After=network.target
-[Service]
-User=root
-ExecStart=/opt/upsource/bin/upsource.sh run
-ExecStop=/opt/upsource/bin/upsource.sh stop
-[Install]
-WantedBy=multi-user.target
