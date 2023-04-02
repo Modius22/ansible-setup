@@ -1,0 +1,8 @@
+- name: Test Playbook
+  hosts: localhost
+  remote_user: root
+  roles:
+    - role: '/home/modius/development/ansible/ansible-role/monitoring/prometheus'
+
+
+

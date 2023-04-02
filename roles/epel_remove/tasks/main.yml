@@ -1,0 +1,5 @@
+- name: Remove repository from a specific repo file
+  yum_repository:
+    name: epel
+    file: epel
+    state: absent
