@@ -1,6 +1,8 @@
 # Ansible Roles 
 
-Here you can find the ansible rolls to the blog posts on www.modius-techblog.de.
+Here can you find a set of roles. A few from my ansible post on www.modius-techblog.de
+
+**_NOTE:_** work in progress - changen from yum to apt 
 
 ## General Using
 
