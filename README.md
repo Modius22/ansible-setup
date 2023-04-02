@@ -4,6 +4,12 @@ Here can you find a set of roles. A few from my ansible post on www.modius-techb
 
 **_NOTE:_** work in progress - changen from yum to apt 
 
+
+## Planned changes
+
+- [ ] dd
+- [ ]
+
 ## General Using
 
 com
