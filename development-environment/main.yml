@@ -1,3 +1,0 @@
-- name: development-environment | Install git
-  yum:
-    name=git

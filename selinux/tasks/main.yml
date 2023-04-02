@@ -1,3 +1,0 @@
-- name: SELinux | Disable selinux at the next reboot
-  selinux:
-    state="{{ action }}d"

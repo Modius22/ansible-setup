@@ -1,3 +1,0 @@
-# firewalld
-
-disable firewalld

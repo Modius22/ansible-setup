@@ -1,9 +1,0 @@
-[Unit]
-Description=Teamcity
-After=network.target
-[Service]
-User=root
-ExecStart=/opt/hub/bin/hub.sh run
-ExecStop=/opt/hub/bin/hub.sh stop
-[Install]
-WantedBy=multi-user.target
