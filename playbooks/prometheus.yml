@@ -1,0 +1,9 @@
+---
+- name: Test Playbook
+  hosts: localhost
+  remote_user: root
+  roles:
+    - { role: roles/monitoring/prometheus}
+
+
+

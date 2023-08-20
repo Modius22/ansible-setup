@@ -42,7 +42,11 @@ Here can you find a set of roles. A few from my ansible post on www.modius-techb
 
 ## General Using
 
-com
+coming soon
+
+## Prometheus example
+
+```ansible-playbook -i hosts/list_of_host.yml  playbooks/prometheus.yml ```
 
 ## LAMP Example
 
@@ -55,3 +59,5 @@ coming soon
 ## Jetbrains CI/CD Example
 
 coming soon
+
+
