@@ -1,0 +1,25 @@
+---
+- name: Install Prometheus
+  become: true
+  apt:
+    name: prometheus
+    state: present
+
+- name: Create Prometheus configuration directory
+  become: true
+  file:
+    path: /etc/prometheus
+    state: directory
+
+- name: Copy Prometheus configuration file
+  become: true
+  copy:
+    src: /path/to/prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+
+- name: Start Prometheus service
+  become: true
+  service:
+    name: prometheus
+    state: started
+    enabled: true
