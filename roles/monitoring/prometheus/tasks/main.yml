@@ -1,5 +1,32 @@
-- name: Ping
-  ansible.builtin.ping:
-- name: Print
-  ansible.builtin.debug:
-    msg: Hello
+---
+- name: Install Prometheus
+  become: true
+  package:
+    name:
+      - prometheus
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install Prometheus
+  become: true
+  package:
+    name:
+      - prometheus
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'RedHat'
+
+- name: Create Prometheus configuration directory
+  become: true
+  file:
+    path: /etc/prometheus
+    state: directory
+
+
+- name: Start Prometheus service
+  become: true
+  service:
+    name: prometheus
+    state: started
+    enabled: true
